@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:weather_app/home/model/current_location_model.dart';
+import 'package:weather_app/util/dio_exception.dart';
 
 class GetLocationService {
   Future<CurrentLocationModel?> getLoaction(ip) async {
-    print(ip);
     Dio dio = Dio();
     try {
       final Response response = await dio.get(
@@ -20,6 +20,8 @@ class GetLocationService {
         }
       }
     } catch (e) {
+      DioException().dioError(e);
+
       log(e.toString());
     }
     return null;

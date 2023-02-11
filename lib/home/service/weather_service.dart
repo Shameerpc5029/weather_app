@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:weather_app/home/model/weather_model.dart';
+import 'package:weather_app/util/dio_exception.dart';
 
 class WeatherService {
   Future<WeatherModel?> getWeatherData(String? city) async {
@@ -17,6 +18,7 @@ class WeatherService {
       );
       if (response.statusCode == 200) {
         if (response.data == null) {
+          log("message");
           return null;
         } else {
           final model = WeatherModel.fromJson(response.data);
@@ -24,6 +26,8 @@ class WeatherService {
         }
       }
     } catch (e) {
+      DioException().dioError(e);
+
       log(e.toString());
     }
     return null;

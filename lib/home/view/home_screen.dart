@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/common/style/sized_box.dart';
-
 import 'package:weather_app/home/controller/home_controller.dart';
 import 'package:weather_app/home/view/widgets/common_card.dart';
 import 'package:weather_app/home/view/widgets/more_detials.dart';
+import 'package:weather_app/search/view/seach_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<HomeController>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      provider.history();
       provider.getIp();
       provider.getWeatherData();
     });
@@ -44,12 +45,21 @@ class HomeScreen extends StatelessWidget {
           body: homeController.isLoading == true ||
                   homeController.isLoading2 == true ||
                   homeController.isLoading3
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
               : SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       CupertinoSearchTextField(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return const SearchScreen();
+                            },
+                          ));
+                        },
                         borderRadius: BorderRadius.circular(20),
                         backgroundColor: Colors.white,
                       ),

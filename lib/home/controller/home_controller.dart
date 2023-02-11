@@ -7,6 +7,8 @@ import 'package:weather_app/home/model/weather_model.dart';
 import 'package:weather_app/home/service/get_location_service.dart';
 import 'package:weather_app/home/service/ip_service.dart';
 import 'package:weather_app/home/service/weather_service.dart';
+import 'package:weather_app/search/model/seach_model.dart';
+import 'package:weather_app/search/service/search_service.dart';
 
 class HomeController extends ChangeNotifier {
   HomeController() {
@@ -23,7 +25,7 @@ class HomeController extends ChangeNotifier {
   Future<void> getWeatherData() async {
     isLoading3 = true;
     notifyListeners();
-    await WeatherService().getWeatherData(locationModel?.city).then(
+    await WeatherService().getWeatherData(locationModel!.ip).then(
       (value) {
         if (value != null) {
           weatherList = value;
@@ -37,7 +39,6 @@ class HomeController extends ChangeNotifier {
         }
       },
     );
-    notifyListeners();
   }
 
   Future<void> getIp() async {
@@ -77,5 +78,38 @@ class HomeController extends ChangeNotifier {
         }
       },
     );
+  }
+
+  void history() {
+    final history = HistoryModel(
+      id: DateTime.now().microsecondsSinceEpoch.toString(),
+      windspeed: weatherList?.current.windKph.toDouble() ?? '',
+      humidity: weatherList?.current.humidity.toString() ?? "",
+      pressure: weatherList?.current.pressureMb.toString() ?? "",
+      temperature: weatherList?.current.tempC.toString() ?? '',
+      city: weatherList?.location.name.toString() ?? '',
+    );
+    HistoryService().addHistory(history);
+    notifyListeners();
+  }
+
+  List<HistoryModel> resultList = [];
+
+  TextEditingController searchController = TextEditingController();
+  void search(String keyboard) {
+    List<HistoryModel> results;
+    if (keyboard.isEmpty) {
+      results = resultList;
+      resultList.clear();
+    } else {
+      results = HistoryService.historyList
+          .where((element) => element.city.toLowerCase().contains(
+                keyboard.toLowerCase(),
+              ))
+          .toList();
+    }
+
+    resultList = results;
+    notifyListeners();
   }
 }

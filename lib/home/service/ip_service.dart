@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:weather_app/home/model/ip_model.dart';
+import 'package:weather_app/util/dio_exception.dart';
 
 class IpService {
   Future<IpModel?> getIp() async {
@@ -23,6 +24,8 @@ class IpService {
         }
       }
     } catch (e) {
+      DioException().dioError(e);
+
       log(e.toString());
     }
     return null;

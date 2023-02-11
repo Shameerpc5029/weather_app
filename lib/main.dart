@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 
 import 'package:weather_app/home/controller/home_controller.dart';
+import 'package:weather_app/search/controller/seach_controller.dart';
+import 'package:weather_app/search/model/seach_model.dart';
+import 'package:weather_app/search/service/search_service.dart';
 import 'package:weather_app/splash/controller/splash_controller.dart';
 import 'package:weather_app/splash/view/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  if (!Hive.isAdapterRegistered(HistoryModelAdapter().typeId)) {
+    Hive.registerAdapter(HistoryModelAdapter());
+  }
   runApp(const MyApp());
 }
 
@@ -18,7 +28,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => SplashController()),
         ChangeNotifierProvider(create: (context) => HomeController()),
-
+        ChangeNotifierProvider(create: (context) => SearchController()),
+        ChangeNotifierProvider(create: (context) => HistoryService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
