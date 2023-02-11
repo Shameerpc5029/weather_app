@@ -26,7 +26,7 @@ class HomeController extends ChangeNotifier {
   Future<void> getWeatherData() async {
     isLoading3 = true;
     notifyListeners();
-    await WeatherService().getWeatherData(locationModel!.ip).then(
+    await WeatherService().getWeatherData(locationModel!.loc).then(
       (value) {
         if (value != null) {
           weatherList = value;
