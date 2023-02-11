@@ -1,11 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/common/style/sized_box.dart';
+
 import 'package:weather_app/home/controller/home_controller.dart';
 import 'package:weather_app/home/view/widgets/common_card.dart';
 import 'package:weather_app/home/view/widgets/more_detials.dart';
 import 'package:weather_app/search/view/seach_screen.dart';
+
+import 'package:weather_app/widgets/loading_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -44,15 +46,13 @@ class HomeScreen extends StatelessWidget {
           ),
           body: homeController.isLoading == true ||
                   homeController.isLoading2 == true ||
-                  homeController.isLoading3
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
+                  homeController.isLoading3 == true
+              ? const LoadingWidget()
               : SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      CupertinoSearchTextField(
+                      TextFormField(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
@@ -60,8 +60,20 @@ class HomeScreen extends StatelessWidget {
                             },
                           ));
                         },
-                        borderRadius: BorderRadius.circular(20),
-                        backgroundColor: Colors.white,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          contentPadding: EdgeInsets.zero,
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'Search',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 5.0),
+                          ),
+                        ),
+                        showCursor: false,
+                        readOnly: true,
                       ),
                       KSizedBox().height20,
                       Container(
@@ -102,7 +114,6 @@ class HomeScreen extends StatelessWidget {
                               subtitle: Text(
                                 "${homeController.weatherList?.location.country}",
                                 style: const TextStyle(
-                                  color: Colors.white,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -118,7 +129,6 @@ class HomeScreen extends StatelessWidget {
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 60,
-                                    color: Colors.white,
                                   ),
                                 ),
                                 Padding(
@@ -136,8 +146,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 homeController.isLoading == true
-                                    ? const Center(
-                                        child: CircularProgressIndicator())
+                                    ? const LoadingWidget()
                                     : Container(
                                         height: 90,
                                         width: 100,
@@ -158,7 +167,6 @@ class HomeScreen extends StatelessWidget {
                                   '',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               ),
                             ),
                             KSizedBox().height10,
@@ -169,7 +177,6 @@ class HomeScreen extends StatelessWidget {
                                   "${(homeController.weatherList?.location.localtime)}",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
                                   ),
                                 ),
                                 Text(
@@ -178,7 +185,6 @@ class HomeScreen extends StatelessWidget {
                                       : "NIGHT",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.white,
                                   ),
                                 ),
                               ],

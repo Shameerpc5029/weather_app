@@ -1,14 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+
 import 'package:weather_app/home/model/current_location_model.dart';
 import 'package:weather_app/home/model/ip_model.dart';
 import 'package:weather_app/home/model/weather_model.dart';
 import 'package:weather_app/home/service/get_location_service.dart';
 import 'package:weather_app/home/service/ip_service.dart';
 import 'package:weather_app/home/service/weather_service.dart';
+import 'package:weather_app/search/controller/history_controller.dart';
 import 'package:weather_app/search/model/seach_model.dart';
-import 'package:weather_app/search/service/search_service.dart';
 
 class HomeController extends ChangeNotifier {
   HomeController() {

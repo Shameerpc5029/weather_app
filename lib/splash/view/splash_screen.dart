@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/home/controller/home_controller.dart';
+
 import 'package:weather_app/splash/controller/splash_controller.dart';
 
 class SplashScreen extends StatelessWidget {

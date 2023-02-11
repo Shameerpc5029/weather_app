@@ -29,11 +29,17 @@ class CommonCard extends StatelessWidget {
             ),
             Text(
               text,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
             Text(
               text2,
-              style: const TextStyle(fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
             ),
           ],
         ),

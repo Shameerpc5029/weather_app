@@ -1,8 +1,11 @@
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:weather_app/search/model/seach_model.dart';
+
+
 
 class HistoryService extends ChangeNotifier {
   static List<HistoryModel> historyList = [];
