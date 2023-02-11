@@ -9,11 +9,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<HomeController>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<HomeController>(context, listen: false).getCurrentLocation();
-      Provider.of<HomeController>(context, listen: false).getIp();
+      provider.getIp();
+      provider.getCurrentLocation();
+      Provider.of<SplashController>(context, listen: false).goToHome(context);
     });
-    Provider.of<SplashController>(context, listen: false).goToHome(context);
     return Scaffold(
       backgroundColor: Colors.purple,
       body: Center(

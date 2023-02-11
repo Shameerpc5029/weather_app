@@ -11,11 +11,6 @@ class WeatherModel {
         location: Location.fromJson(json["location"]),
         current: Current.fromJson(json["current"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "location": location.toJson(),
-        "current": current.toJson(),
-      };
 }
 
 class Current {
@@ -94,32 +89,6 @@ class Current {
         gustMph: json["gust_mph"]?.toDouble(),
         gustKph: json["gust_kph"]?.toDouble(),
       );
-
-  Map<String, dynamic> toJson() => {
-        "last_updated_epoch": lastUpdatedEpoch,
-        "last_updated": lastUpdated,
-        "temp_c": tempC,
-        "temp_f": tempF,
-        "is_day": isDay,
-        "condition": condition.toJson(),
-        "wind_mph": windMph,
-        "wind_kph": windKph,
-        "wind_degree": windDegree,
-        "wind_dir": windDir,
-        "pressure_mb": pressureMb,
-        "pressure_in": pressureIn,
-        "precip_mm": precipMm,
-        "precip_in": precipIn,
-        "humidity": humidity,
-        "cloud": cloud,
-        "feelslike_c": feelslikeC,
-        "feelslike_f": feelslikeF,
-        "vis_km": visKm,
-        "vis_miles": visMiles,
-        "uv": uv,
-        "gust_mph": gustMph,
-        "gust_kph": gustKph,
-      };
 }
 
 class Condition {

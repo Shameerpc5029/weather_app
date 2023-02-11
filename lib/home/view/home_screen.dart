@@ -12,8 +12,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<HomeController>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<HomeController>(context, listen: false).getWeatherData();
+      provider.getIp();
+      provider.getWeatherData();
     });
 
     return Consumer<HomeController>(
@@ -30,17 +32,18 @@ class HomeScreen extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  // homeController.getIp();
+                  homeController.getIp();
                 },
                 icon: const Icon(
-                  Icons.my_location_outlined,
+                  Icons.replay_outlined,
                   color: Colors.white,
                 ),
               ),
             ],
           ),
           body: homeController.isLoading == true ||
-                  homeController.isLoading2 == true
+                  homeController.isLoading2 == true ||
+                  homeController.isLoading3
               ? const Center(child: CircularProgressIndicator())
               : SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -10,9 +10,11 @@ class IpService {
     try {
       final Response response = await dio.get(
         'https://api.ipify.org/',
-        queryParameters: {"format": "json"},
+        queryParameters: {
+          "format": "json",
+        },
       );
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200) {
         if (response.data == null) {
           return null;
         } else {
@@ -21,8 +23,6 @@ class IpService {
         }
       }
     } catch (e) {
-      log('ipserv');
-
       log(e.toString());
     }
     return null;

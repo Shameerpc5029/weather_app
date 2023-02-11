@@ -9,43 +9,51 @@ import 'package:weather_app/home/service/ip_service.dart';
 import 'package:weather_app/home/service/weather_service.dart';
 
 class HomeController extends ChangeNotifier {
+  HomeController() {
+    getIp();
+  }
   bool isLoading = false;
   bool isLoading2 = false;
+  bool isLoading3 = false;
+
   WeatherModel? weatherList;
   IpModel? ipModel;
   CurrentLocationModel? locationModel;
 
   Future<void> getWeatherData() async {
-    isLoading2 = true;
+    isLoading3 = true;
     notifyListeners();
-    await WeatherService().getWeatherData(locationModel!.city).then(
+    await WeatherService().getWeatherData(locationModel?.city).then(
       (value) {
         if (value != null) {
           weatherList = value;
           log(weatherList.toString());
           notifyListeners();
-          isLoading2 = false;
+          isLoading3 = false;
           notifyListeners();
         } else {
-          isLoading2 = false;
+          isLoading3 = false;
           notifyListeners();
         }
       },
     );
+    notifyListeners();
   }
 
   Future<void> getIp() async {
-    isLoading = true;
+    isLoading2 = true;
     notifyListeners();
     await IpService().getIp().then(
       (value) {
         if (value != null) {
+          getCurrentLocation();
+          notifyListeners();
           ipModel = value;
           log(ipModel.toString());
-          isLoading = false;
+          isLoading2 = false;
           notifyListeners();
         } else {
-          isLoading = false;
+          isLoading2 = false;
           notifyListeners();
         }
       },
@@ -55,7 +63,7 @@ class HomeController extends ChangeNotifier {
   Future<void> getCurrentLocation() async {
     isLoading = true;
     notifyListeners();
-    await GetLocationService().getLoaction().then(
+    await GetLocationService().getLoaction(ipModel?.ip ?? '').then(
       (value) {
         if (value != null) {
           locationModel = value;

@@ -4,11 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:weather_app/home/model/current_location_model.dart';
 
 class GetLocationService {
-  Future<CurrentLocationModel?> getLoaction() async {
+  Future<CurrentLocationModel?> getLoaction(ip) async {
+    print(ip);
     Dio dio = Dio();
     try {
-      final Response response =
-          await dio.get("https://ipinfo.io/182.79.17.238/geo");
+      final Response response = await dio.get(
+        'https://ipinfo.io/$ip/geo',
+      );
       if (response.statusCode == 200) {
         if (response.data == null) {
           return null;
@@ -18,7 +20,6 @@ class GetLocationService {
         }
       }
     } catch (e) {
-      log('getLocation');
       log(e.toString());
     }
     return null;

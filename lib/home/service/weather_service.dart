@@ -24,8 +24,6 @@ class WeatherService {
         }
       }
     } catch (e) {
-      log('weatherse');
-
       log(e.toString());
     }
     return null;
