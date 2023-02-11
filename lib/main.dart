@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:weather_app/home/controller/home_controller.dart';
 import 'package:weather_app/splash/controller/splash_controller.dart';
 import 'package:weather_app/splash/view/splash_screen.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SplashController()),
-        ChangeNotifierProvider(create: (context) => HomeController())
+        ChangeNotifierProvider(create: (context) => HomeController()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
