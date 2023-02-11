@@ -14,6 +14,7 @@ import 'package:weather_app/search/model/seach_model.dart';
 class HomeController extends ChangeNotifier {
   HomeController() {
     getIp();
+    history();
   }
   bool isLoading = false;
   bool isLoading2 = false;
@@ -103,13 +104,12 @@ class HomeController extends ChangeNotifier {
       results = resultList;
       resultList.clear();
     } else {
-      results = HistoryService.historyList
+      results = HistoryService.history
           .where((element) => element.city.toLowerCase().contains(
                 keyboard.toLowerCase(),
               ))
           .toList();
     }
-
     resultList = results;
     notifyListeners();
   }

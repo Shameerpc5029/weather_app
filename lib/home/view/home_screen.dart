@@ -54,11 +54,14 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       TextFormField(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) {
-                              return const SearchScreen();
-                            },
-                          ));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const SearchScreen();
+                              },
+                            ),
+                          );
+                          homeController.history();
                         },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),

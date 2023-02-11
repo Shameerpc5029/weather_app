@@ -15,6 +15,7 @@ class SplashScreen extends StatelessWidget {
       provider.getIp();
       provider.getCurrentLocation();
       Provider.of<SplashController>(context, listen: false).goToHome(context);
+      provider.history();
     });
     return Scaffold(
       backgroundColor: Colors.purple,

@@ -1,9 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/home/controller/home_controller.dart';
-
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -11,7 +9,16 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Provider.of<HomeController>(context, listen: false)
+                  .searchController
+                  .clear();
+            },
+            icon: const Icon(Icons.arrow_back)),
+      ),
       body: Consumer<HomeController>(
         builder: (context, value, child) {
           return SingleChildScrollView(
