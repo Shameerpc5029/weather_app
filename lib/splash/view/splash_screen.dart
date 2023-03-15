@@ -18,12 +18,12 @@ class SplashScreen extends StatelessWidget {
       provider.history();
     });
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Colors.blue,
       body: Center(
         child: AnimatedTextKit(
           animatedTexts: [
             ColorizeAnimatedText(
-              'Lilac\nFlutter Assignment',
+              'Weather App',
               textStyle: const TextStyle(
                 fontSize: 35,
                 color: Colors.white,
@@ -34,18 +34,6 @@ class SplashScreen extends StatelessWidget {
                 Colors.purple,
               ],
             ),
-            // TypewriterAnimatedText(
-            //   'Lilac\nFlutter Assignment',
-            //   textStyle: const TextStyle(
-            //     fontSize: 32.0,
-            //     color: Colors.white,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            //   // textAlign: TextAlign.center,
-            //   speed: const Duration(
-            //     milliseconds: 100,
-            //   ),
-            // ),
           ],
         ),
       ),
