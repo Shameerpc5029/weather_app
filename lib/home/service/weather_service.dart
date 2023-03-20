@@ -5,14 +5,14 @@ import 'package:weather_app/home/model/weather_model.dart';
 import 'package:weather_app/util/dio_exception.dart';
 
 class WeatherService {
-  Future<WeatherModel?> getWeatherData(String? city) async {
+  Future<WeatherModel?> getWeatherData(dynamic lat, dynamic lon) async {
     Dio dio = Dio();
     try {
       final Response response = await dio.get(
         'https://api.weatherapi.com/v1/current.json',
         queryParameters: {
           "key": "c0dbb6f1794640eeabf103014222805",
-          "q": city,
+          "q": "$lat,$lon",
           "aqi": "no",
         },
       );

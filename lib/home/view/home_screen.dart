@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/common/style/sized_box.dart';
 
 import 'package:weather_app/home/controller/home_controller.dart';
+
 import 'package:weather_app/home/view/widgets/common_card.dart';
 import 'package:weather_app/home/view/widgets/more_detials.dart';
 import 'package:weather_app/search/view/seach_screen.dart';
@@ -17,7 +18,6 @@ class HomeScreen extends StatelessWidget {
     final provider = Provider.of<HomeController>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       provider.history();
-      provider.getIp();
       provider.getWeatherData();
     });
 
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  homeController.getIp();
+                  homeController.getLocation();
                 },
                 icon: const Icon(
                   Icons.replay_outlined,

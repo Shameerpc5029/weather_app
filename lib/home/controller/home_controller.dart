@@ -1,19 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
-import 'package:weather_app/home/model/current_location_model.dart';
-import 'package:weather_app/home/model/ip_model.dart';
 import 'package:weather_app/home/model/weather_model.dart';
-import 'package:weather_app/home/service/get_location_service.dart';
-import 'package:weather_app/home/service/ip_service.dart';
+
 import 'package:weather_app/home/service/weather_service.dart';
 import 'package:weather_app/search/controller/history_controller.dart';
 import 'package:weather_app/search/model/seach_model.dart';
 
 class HomeController extends ChangeNotifier {
   HomeController() {
-    getIp();
+    getPosition();
     history();
   }
   bool isLoading = false;
@@ -21,15 +19,17 @@ class HomeController extends ChangeNotifier {
   bool isLoading3 = false;
 
   WeatherModel? weatherList;
-  IpModel? ipModel;
-  CurrentLocationModel? locationModel;
+  dynamic lat;
+  dynamic lon;
 
   Future<void> getWeatherData() async {
     isLoading3 = true;
     notifyListeners();
-    await WeatherService().getWeatherData(locationModel!.ip).then(
+
+    await WeatherService().getWeatherData(lat, lon).then(
       (value) {
         if (value != null) {
+          getPosition();
           weatherList = value;
           log(weatherList.toString());
           notifyListeners();
@@ -43,42 +43,38 @@ class HomeController extends ChangeNotifier {
     );
   }
 
-  Future<void> getIp() async {
-    isLoading2 = true;
-    notifyListeners();
-    await IpService().getIp().then(
-      (value) {
-        if (value != null) {
-          getCurrentLocation();
-          notifyListeners();
-          ipModel = value;
-          log(ipModel.toString());
-          isLoading2 = false;
-          notifyListeners();
-        } else {
-          isLoading2 = false;
-          notifyListeners();
-        }
-      },
-    );
+  void getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    lat = position.latitude;
+    lon = position.longitude;
   }
 
-  Future<void> getCurrentLocation() async {
-    isLoading = true;
-    notifyListeners();
-    await GetLocationService().getLoaction(ipModel?.ip ?? '').then(
-      (value) {
-        if (value != null) {
-          locationModel = value;
-          notifyListeners();
-          log(locationModel.toString());
-          isLoading = false;
-          notifyListeners();
-        } else {
-          isLoading = false;
-          notifyListeners();
-        }
-      },
+  Future<Position> getPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    getLocation();
+
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.low,
     );
   }
 
